@@ -5,6 +5,61 @@ for Atmel's SAMD21 and SAMD51 processor (used on the Arduino/Genuino Zero, MKR10
 
 In particular, this adds support for the Seeed SAMD Boards such as the Seeeduino XIAO
 
+## Custom USB Serial Number Support
+
+This fork adds the ability to set a custom USB serial number for SAMD devices instead of using the hardware-based serial number derived from the chip's unique ID.
+
+### Purpose
+
+By default, SAMD microcontrollers use a serial number generated from hardware registers, which is unique for each chip but not customizable. This modification allows applications to:
+
+- Set a user-defined USB serial number programmatically
+- Maintain a consistent serial number across multiple devices for testing or deployment
+- Identify devices by application-specific identifiers rather than hardware IDs
+
+### Usage
+
+To enable custom serial number support, define `USB_CUSTOM_SERIAL` in your build flags:
+```ini
+# In platformio.ini
+build_flags = -DUSB_CUSTOM_SERIAL
+```
+
+Then set your custom serial number in code using:
+```cpp
+char g_usbSerialNumber[33];
+
+strcpy(g_usbSerialNumber, "MY-CUSTOM-SERIAL-001");
+    
+    // Your code...
+}
+```
+
+**Note:** The custom serial number must be set before USB initialization. If `g_usbSerialNumber` is empty or `USB_CUSTOM_SERIAL` is not defined, the device will fall back to the hardware-based serial number.
+
+Example of usage with reading from flash before USB renumeration:
+```cpp
+class USBSerialInitializer {
+public:
+  USBSerialInitializer() {
+    myFlashStorage.read(data);
+    if (data.magicNumber == EEPROM_MAGIC_NUMBER) {
+      strcpy(g_usbSerialNumber, data.sn);
+    } else {
+      uint32_t* uid = (uint32_t*)0x0080A00C;
+      sprintf(g_usbSerialNumber, "%08lX%08lX%08lX%08lX", uid[0], uid[1], uid[2], uid[3]);
+    }
+  }
+};
+```
+
+### Implementation Details
+
+- Custom serial numbers are limited to 32 characters (plus null terminator)
+- The feature is opt-in via the `USB_CUSTOM_SERIAL` compile flag
+- Without the flag, behavior is identical to the original Arduino Core
+- Hardware serial number is used as fallback if custom serial is not set
+
 ## Bugs or Issues
 
 
