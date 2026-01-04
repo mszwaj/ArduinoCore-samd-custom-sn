@@ -23,6 +23,8 @@ menu.usbstack=USB Stack
 menu.debug=Debug
 menu.sercom4=SERCOM4
 menu.txrxled=TX/RX LED
+menu.customserial=Custom Serial
+
 
 # Seeed Wio Terminal (SAMD51)
 # ------------------------------
@@ -132,46 +134,50 @@ Seeed_femto_m0.menu.debug.on.build.flags.debug=-g -DDEBUG=1
 
 # Seeed XIAO M0 (SAMD21)
 # ------------------------------
-seeed_XIAO_m0.name=Seeeduino XIAO
-seeed_XIAO_m0.vid.0=0x2886
-seeed_XIAO_m0.pid.0=0x802F
-seeed_XIAO_m0.vid.1=0x2886
-seeed_XIAO_m0.pid.1=0x002F
-seeed_XIAO_m0.upload.tool=bossac
-seeed_XIAO_m0.upload.protocol=sam-ba
-seeed_XIAO_m0.upload.maximum_size=262144
-seeed_XIAO_m0.upload.offset=0x2000
-seeed_XIAO_m0.upload.use_1200bps_touch=true
-seeed_XIAO_m0.upload.wait_for_upload_port=true
-seeed_XIAO_m0.upload.native_usb=true
-seeed_XIAO_m0.build.mcu=cortex-m0plus
-seeed_XIAO_m0.build.f_cpu=48000000L
-seeed_XIAO_m0.build.usb_product="Seeed XIAO M0"
-seeed_XIAO_m0.build.usb_manufacturer="Seeed"
-seeed_XIAO_m0.build.board=SEEED_XIAO_M0
-seeed_XIAO_m0.build.core=arduino
-seeed_XIAO_m0.build.extra_flags= -DARDUINO_SAMD_ZERO -D__SAMD21__ -D__SAMD21G18A__ -DARM_MATH_CM0PLUS -DSEEED_XIAO_M0 {build.usb_flags} {sercom4_flag}
-seeed_XIAO_m0.build.ldscript=linker_scripts/gcc/flash_with_bootloader.ld
-seeed_XIAO_m0.build.openocdscript=openocd_scripts/XIAO_m0.cfg
-seeed_XIAO_m0.build.variant=XIAO_m0
-seeed_XIAO_m0.build.variant_system_lib=
-seeed_XIAO_m0.build.vid=0x2886
-seeed_XIAO_m0.build.pid=0x802F
-seeed_XIAO_m0.bootloader.tool=openocd
-seeed_XIAO_m0.bootloader.file=XIAOM0/bootloader-XIAO_m0-v3.7.0-33-g90ff611-dirty.bin
-seeed_XIAO_m0.menu.usbstack.arduino=Arduino
-seeed_XIAO_m0.menu.usbstack.tinyusb=TinyUSB
-seeed_XIAO_m0.menu.usbstack.tinyusb.build.flags.usbstack=-DUSE_TINYUSB
-seeed_XIAO_m0.menu.debug.off=Off
-seeed_XIAO_m0.menu.debug.on=On
-seeed_XIAO_m0.menu.debug.on.build.flags.debug=-g -DDEBUG=1
-seeed_XIAO_m0.menu.sercom4.include=USART
-seeed_XIAO_m0.menu.sercom4.include.sercom4_flag=
-seeed_XIAO_m0.menu.sercom4.exclude=None
-seeed_XIAO_m0.menu.sercom4.exclude.sercom4_flag=-DNO_USART_INTERFACE
-seeed_XIAO_m0.menu.txrxled.on=On
-seeed_XIAO_m0.menu.txrxled.off=Off
-seeed_XIAO_m0.menu.txrxled.on.build.flags.txrxled=-DTXRXLED_ENABLE
+seeed_XIAO_m0_sn.name=Seeeduino XIAO (SN)
+seeed_XIAO_m0_sn.vid.0=0x2886
+seeed_XIAO_m0_sn.pid.0=0x802F
+seeed_XIAO_m0_sn.vid.1=0x2886
+seeed_XIAO_m0_sn.pid.1=0x002F
+seeed_XIAO_m0_sn.upload.tool=bossac
+seeed_XIAO_m0_sn.upload.protocol=sam-ba
+seeed_XIAO_m0_sn.upload.maximum_size=262144
+seeed_XIAO_m0_sn.upload.offset=0x2000
+seeed_XIAO_m0_sn.upload.use_1200bps_touch=true
+seeed_XIAO_m0_sn.upload.wait_for_upload_port=true
+seeed_XIAO_m0_sn.upload.native_usb=true
+seeed_XIAO_m0_sn.build.mcu=cortex-m0plus
+seeed_XIAO_m0_sn.build.f_cpu=48000000L
+seeed_XIAO_m0_sn.build.usb_product="Seeed XIAO M0"
+seeed_XIAO_m0_sn.build.usb_manufacturer="Seeed"
+seeed_XIAO_m0_sn.build.board=seeed_XIAO_m0_sn
+seeed_XIAO_m0_sn.build.core=arduino
+seeed_XIAO_m0_sn.build.extra_flags= -DARDUINO_SAMD_ZERO -D__SAMD21__ -D__SAMD21G18A__ -DARM_MATH_CM0PLUS -Dseeed_XIAO_m0 {build.usb_flags} {build.flags.debug} {sercom4_flag} {customserial}
+seeed_XIAO_m0_sn.build.ldscript=linker_scripts/gcc/flash_with_bootloader.ld
+seeed_XIAO_m0_sn.build.openocdscript=openocd_scripts/XIAO_m0.cfg
+seeed_XIAO_m0_sn.build.variant=XIAO_m0
+seeed_XIAO_m0_sn.build.variant_system_lib=
+seeed_XIAO_m0_sn.build.vid=0x2886
+seeed_XIAO_m0_sn.build.pid=0x802F
+seeed_XIAO_m0_sn.bootloader.tool=openocd
+seeed_XIAO_m0_sn.bootloader.file=XIAOM0/bootloader-XIAO_m0-v3.7.0-33-g90ff611-dirty.bin
+seeed_XIAO_m0_sn.menu.usbstack.arduino=Arduino
+seeed_XIAO_m0_sn.menu.usbstack.tinyusb=TinyUSB
+seeed_XIAO_m0_sn.menu.usbstack.tinyusb.build.flags.usbstack=-DUSE_TINYUSB
+seeed_XIAO_m0_sn.menu.debug.off=Off
+seeed_XIAO_m0_sn.menu.debug.on=On
+seeed_XIAO_m0_sn.menu.debug.on.build.flags.debug=-g -DDEBUG=1
+seeed_XIAO_m0_sn.menu.sercom4.include=USART
+seeed_XIAO_m0_sn.menu.sercom4.include.sercom4_flag=
+seeed_XIAO_m0_sn.menu.sercom4.exclude=None
+seeed_XIAO_m0_sn.menu.sercom4.exclude.sercom4_flag=-DNO_USART_INTERFACE
+seeed_XIAO_m0_sn.menu.txrxled.on=On
+seeed_XIAO_m0_sn.menu.txrxled.off=Off
+seeed_XIAO_m0_sn.menu.txrxled.on.build.flags.txrxled=-DTXRXLED_ENABLE
+seeed_XIAO_m0_sn.menu.customserial.disabled=Disabled
+seeed_XIAO_m0_sn.menu.customserial.disabled.customserial=
+seeed_XIAO_m0_sn.menu.customserial.enabled=Enabled
+seeed_XIAO_m0_sn.menu.customserial.enabled.customserial=-DUSB_CUSTOM_SERIAL
 
 
 # Seeed Wio Lite MG126 (SAMD21)
