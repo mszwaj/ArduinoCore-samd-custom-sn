@@ -19,25 +19,43 @@ By default, SAMD microcontrollers use a serial number generated from hardware re
 
 ### Usage
 
+This fork supports both **PlatformIO** and **Arduino IDE** (tested on versions 2.3.6 and 2.3.7).
+
+#### PlatformIO
 To enable custom serial number support, define `USB_CUSTOM_SERIAL` in your build flags:
 ```ini
 # In platformio.ini
 build_flags = -DUSB_CUSTOM_SERIAL
 ```
 
-Then set your custom serial number in code using:
+#### Arduino IDE
+
+To enable custom serial number support in Arduino IDE:
+
+1. Install this board package
+- Seeed ArduinoCore-samd needs to be added as well because of tools dependencies: openocd, CMSIS, CMSIS-Atmel, arduinoOTA: https://files.seeedstudio.com/arduino/package_seeeduino_boards_index.json
+- Add this package: https://github.com/mszwaj/ArduinoCore-samd-custom-sn/releases/download/1.8.5-custom-sn.1-rc1/package_mszwaj_seeeduino_xiao_custom_sn.json
+- Install "Seeed SAMD Boards" and "SAMD Boards (custom SN)"
+2. Select your board: **Tools → Board → SAMD Boards (custom SN) → Seeeduino XIAO (SN)**
+3. Enable custom serial: **Tools → Custom Serial → Enabled**
+- this setting adds USB_CUSTOM_SERIAL build flag
+
+When **Custom Serial** is set to **Disabled**, the device will use the default hardware-based serial number.
+
+
+Set your custom serial number in code using:
 ```cpp
 char g_usbSerialNumber[33];
 
 strcpy(g_usbSerialNumber, "MY-CUSTOM-SERIAL-001");
     
     // Your code...
-}
 ```
 
 **Note:** The custom serial number must be set before USB initialization. If `g_usbSerialNumber` is empty or `USB_CUSTOM_SERIAL` is not defined, the device will fall back to the hardware-based serial number.
 
-Example of usage with reading from flash before USB renumeration:
+#### Example
+Example of usage with reading from flash before USB renumeration - keep it before setup():
 ```cpp
 class USBSerialInitializer {
 public:
@@ -59,6 +77,7 @@ public:
 - The feature is opt-in via the `USB_CUSTOM_SERIAL` compile flag
 - Without the flag, behavior is identical to the original Arduino Core
 - Hardware serial number is used as fallback if custom serial is not set
+- In Arduino IDE, the **Tools → Custom Serial** option (provided by `boards.txt`) automatically adds the `USB_CUSTOM_SERIAL` build flag when enabled
 
 ## Bugs or Issues
 
